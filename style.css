@@ -62,7 +62,7 @@ html {
     align-items: center;
 }
 
-[class*='piece'] {
+.piece {
     width: 50%;
     height: 50%;
     border-radius: 50%;
