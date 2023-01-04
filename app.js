@@ -223,8 +223,28 @@ const createSquareEventListeners = () => {
             if(selectedPiece) {
                 if(isValidMove(selectedPiece, square)) {
                     makeTurn(square)
-                    if(!totalPieces.every(piece => piece.justCaptured)) {
+                    if(totalPieces.every(piece => piece.justCaptured === false)) {
+                        selectedPiece = null
                         switchTurn()
+                    } else {
+                        for(piece of totalPieces) {
+                            piece.availableMoves = []
+                            piece.captures = {}
+                            if(!selectedPiece.isKing) {
+                                player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player)
+                                : getCaptures(selectedPiece, playerOnePieces, player)
+                            } else {
+                                player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
+                                : getCaptures(selectedPiece, playerOnePieces, player - 1)
+                            }
+                        }
+                        for(let piece of totalPieces) {
+                            piece.justCaptured = false
+                        }
+                        if(totalPieces.every(piece => Object.keys(piece.captures).length === 0)) {
+                            selectedPiece = null
+                            switchTurn()
+                        }
                     }
                 }
             }
@@ -234,7 +254,6 @@ const createSquareEventListeners = () => {
 
 const makeTurn = (square) => {
     selectedPiece.currentSquare = square.id
-    selectedPiece = null
     checkForKing()
     renderBoard()
     createPieceEventListeners()
@@ -249,6 +268,7 @@ const isValidMove = (selectedPiece, square) => {
                     piece.currentSquare = null
                 }
             }
+            selectedPiece.justCaptured = true
             return true
         }
     } else {
