@@ -174,17 +174,25 @@ const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
     if(currentPlayerPieces.every(piece => Object.keys(piece.captures).length === 0)) {
         for(let piece of currentPlayerPieces) {
             if(piece.currentSquare) {
-                for(let square of availableMovesForSquares[piece.currentSquare][player]) {
-                    if(square) {
-                        if(totalPieces.every(piece => piece.currentSquare !== `s${square}`)) {
-                            piece.availableMoves.push(square)
-                        }
-                    }
+                getNonCaptureMoves(piece, player)
+                if(piece.isKing) {
+                    getNonCaptureMoves(piece, player - 1)
                 }
             }
         }
     }
 }
+
+const getNonCaptureMoves = (piece, index) => {
+    for(let square of availableMovesForSquares[piece.currentSquare].at(index)) {
+        if(square) {
+            if(totalPieces.every(piece => piece.currentSquare !== `s${square}`)) {
+                piece.availableMoves.push(square)
+            }
+        }
+    }
+}
+
 
 const createPieceEventListeners = () => {
     const pieces = document.querySelectorAll('.piece')
