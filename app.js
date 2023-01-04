@@ -5,6 +5,7 @@ const restartButton = document.querySelector('#restart-button')
 
 let playerOnePieces = []
 let playerTwoPieces = []
+let totalPieces = []
 
 // this variable is used to keep track of the current players turn
 //it is also used when searching the availableMovesForSquares array to 
@@ -63,11 +64,13 @@ const createUserPieces = () => {
     for(let i = 1; i <= 12; i++) {
         const piece = new PlayerPiece(`s${i}`)
         playerTwoPieces.push(piece)
+        totalPieces.push(piece)
     }
 
     for(let i = 21; i <= 32; i++) {
         const piece = new PlayerPiece(`s${i}`)
         playerOnePieces.push(piece)
+        totalPieces.push(piece)
     }
 }
 
@@ -104,7 +107,6 @@ const renderBoard = () => {
 }
 
 const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
-    const totalPieces = currentPlayerPieces.concat(opponentPieces)
     for(piece of totalPieces) {
         //this resets these attributes so they clear out after every turn
         piece.availableMoves = []
@@ -190,7 +192,7 @@ const createPieceEventListeners = () => {
         piece.addEventListener('click', (e) => {
             e.stopPropagation()
             selection = piece.parentElement.id
-            for(let piece of playerOnePieces.concat(playerTwoPieces)) {
+            for(let piece of totalPieces) {
                 if(piece.currentSquare === selection){
                     selectedPiece = piece
                 }
@@ -219,7 +221,7 @@ const createSquareEventListeners = () => {
 const isValidMove = (selectedPiece, square) => {
     if(Object.keys(selectedPiece.captures).length !== 0) {
         if((parseInt(square.id.slice(1))) in selectedPiece.captures) {
-            for(let piece of playerOnePieces.concat(playerTwoPieces)) {
+            for(let piece of totalPieces) {
                 if(piece.currentSquare === `s${selectedPiece.captures[square.id.slice(1)]}`) {
                     piece.isAlive = false
                     piece.currentSquare = null
@@ -266,6 +268,7 @@ const switchTurn = () => {
 restartButton.addEventListener('click', () => {
     playerOnePieces = []
     playerTwoPieces = []
+    totalPieces = []
     player = 0
     playerTwo.style.color = 'black'
     playerOne.style.color = 'green'
