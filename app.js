@@ -37,7 +37,7 @@ const availableMovesForSquares = {
     s10: [[6, 7], [14, 15]],
     s11: [[7, 8], [15, 16]],
     s12: [[8, null], [16, null]],
-    s13: [[null, 8], [null, 17]],
+    s13: [[null, 9], [null, 17]],
     s14: [[9, 10], [17, 18]],
     s15: [[10, 11], [18, 19]],
     s16: [[11, 12], [19, 20]],
@@ -81,6 +81,11 @@ const renderBoard = () => {
             const square = document.querySelector(`#${piece.currentSquare}`)
             square.appendChild(playerPiece)
             playerPiece.classList.add('player-one-piece', 'piece')
+
+            if(piece.isKing) {
+                playerPiece.classList.add('king')
+                playerPiece.innerHTML = '<i class="fa-solid fa-crown"></i>'
+            }
         }
     }
     for(let piece of playerTwoPieces) {
@@ -89,6 +94,11 @@ const renderBoard = () => {
             const square = document.querySelector(`#${piece.currentSquare}`)
             square.appendChild(playerPiece)
             playerPiece.classList.add('player-two-piece', 'piece')
+
+            if(piece.isKing) {
+                playerPiece.classList.add('king')
+                playerPiece.innerHTML = '<i class="fa-solid fa-crown"></i>'
+            }
         }
     }
 }
@@ -195,8 +205,9 @@ const createSquareEventListeners = () => {
             if(selectedPiece) {
                 if(isValidMove(selectedPiece, square)) {
                     selectedPiece.currentSquare = square.id
-                    renderBoard()
                     selectedPiece = null
+                    checkForKing()
+                    renderBoard()
                     createPieceEventListeners()
                     switchTurn()
                 }
@@ -223,6 +234,21 @@ const isValidMove = (selectedPiece, square) => {
     }
 }
 
+const checkForKing = () => {
+    const playerOneKingSquares = ['s1', 's2', 's3', 's4']
+    const playerTwoKingSquares = ['s29', 's30', 's31', 's32']
+    for(let piece of playerOnePieces) {
+        if(playerOneKingSquares.includes(piece.currentSquare)) {
+            piece.isKing = true
+        }
+    }
+    for(let piece of playerTwoPieces) {
+        if(playerTwoKingSquares.includes(piece.currentSquare)) {
+            piece.isKing = true
+        }
+    }
+}
+
 const switchTurn = () => {
     if(player === 0){
         player = 1
@@ -240,6 +266,9 @@ const switchTurn = () => {
 restartButton.addEventListener('click', () => {
     playerOnePieces = []
     playerTwoPieces = []
+    player = 0
+    playerTwo.style.color = 'black'
+    playerOne.style.color = 'green'
     initialize()
 })
 
