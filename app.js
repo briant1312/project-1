@@ -1,9 +1,10 @@
-const squares = document.querySelectorAll('.square');
+const squares = document.querySelectorAll('.square')
 const playerOne = document.querySelector('#player-one')
 const playerTwo = document.querySelector('#player-two')
+const restartButton = document.querySelector('#restart-button')
 
-const playerOnePieces = []
-const playerTwoPieces = []
+let playerOnePieces = []
+let playerTwoPieces = []
 
 // this variable is used to keep track of the current players turn
 //it is also used when searching the availableMovesForSquares array to 
@@ -206,7 +207,6 @@ const createSquareEventListeners = () => {
 
 const isValidMove = (selectedPiece, square) => {
     if(Object.keys(selectedPiece.captures).length !== 0) {
-        //create capture portion
         if((parseInt(square.id.slice(1))) in selectedPiece.captures) {
             for(let piece of playerOnePieces.concat(playerTwoPieces)) {
                 if(piece.currentSquare === `s${selectedPiece.captures[square.id.slice(1)]}`) {
@@ -236,6 +236,12 @@ const switchTurn = () => {
         generateAvailableMoves(playerOnePieces, playerTwoPieces)
     }
 }
+
+restartButton.addEventListener('click', () => {
+    playerOnePieces = []
+    playerTwoPieces = []
+    initialize()
+})
 
 
 const initialize = () => {
