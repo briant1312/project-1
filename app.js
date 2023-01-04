@@ -108,7 +108,7 @@ const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
                     //the inner conditional statements check for which user is currently playing
                     if(availableMovesForSquares[piece.currentSquare][player].indexOf(square) === 0) {
                         if(player === 0) {
-                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) - 9)}`
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1)) - 9}`
                             const edgePieces = ['s9', 's17', 's25']
                             if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
                                 if(!edgePieces.includes(piece.currentSquare)) {
@@ -117,7 +117,7 @@ const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
                                 }
                             }
                         } else {
-                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) + 7)}`
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1)) + 7}`
                             const edgePieces = ['s1', 's9', 's17', 's25']
                             if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
                                 if(!edgePieces.includes(piece.currentSquare)){
@@ -130,7 +130,7 @@ const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
                         //we are jumping to the right
                     } else { 
                         if(player === 0) {
-                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) - 7)}`
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1)) - 7}`
                             const edgePieces = ['s8', 's16', 's24', 's32']
                             if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
                                 if(!edgePieces.includes(piece.currentSquare)) {
@@ -139,7 +139,7 @@ const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
                                 }
                             }
                         } else {
-                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) + 9)}`
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1)) + 9}`
                             const edgePieces = ['s8', 's16', 's24']
                             if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
                                 if(!edgePieces.includes(piece.currentSquare)) {
