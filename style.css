@@ -18,16 +18,17 @@ html {
 
 /* ========== Page Style ========== */
 
-#player-one {
+#player-two {
     position: absolute;
     top: 3.2rem;
-    right: 3.2rem;;
+    right: 3.2rem;
 }
 
-#player-two {
+#player-one {
     position: absolute;
     bottom: 3.2rem;
     left: 3.2rem;
+    color: green;
 }
 
 #restart-button {
