@@ -14,7 +14,7 @@ class PlayerPiece {
         this.currentSquare = currentSquare
         this.isAlive = true
         this.isKing = false
-        this.captures = []
+        this.captures = null
         this.availableMoves = []
     }
     
@@ -93,13 +93,68 @@ const renderBoard = () => {
 const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
     const totalPieces = currentPlayerPieces.concat(opponentPieces)
     for(piece of totalPieces) {
-        piece.captures = []
+        //this resets these attributes so they clear out after every turn
         piece.availableMoves = []
+        piece.captures = {}
     }
     for(let piece of currentPlayerPieces) {
-        //generate captures
+        //loop through each users piece and check the availableMovesForSquares object
+        //to see which squares are adjacent to the current pieces square
+        for(let square of availableMovesForSquares[piece.currentSquare][player]) {
+            if(square) {
+                //check if any of the user pieces are on the squares adjacent to the users
+                if(opponentPieces.some(piece => piece.currentSquare === `s${square}`)) {
+                    //if the square in question is the 1st item in the array we are jumping to the left
+                    //the inner conditional statements check for which user is currently playing
+                    if(availableMovesForSquares[piece.currentSquare][player].indexOf(square) === 0) {
+                        if(player === 0) {
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) - 9)}`
+                            const edgePieces = ['s9', 's17', 's25']
+                            if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
+                                if(!edgePieces.includes(piece.currentSquare)) {
+                                    piece.captures[parseInt(piece.currentSquare.slice(1)) - 9]
+                                     = availableMovesForSquares[piece.currentSquare][player][0]
+                                }
+                            }
+                        } else {
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) + 7)}`
+                            const edgePieces = ['s1', 's9', 's17', 's25']
+                            if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
+                                if(!edgePieces.includes(piece.currentSquare)){
+                                    piece.captures[parseInt(piece.currentSquare.slice(1)) + 7]
+                                    = availableMovesForSquares[piece.currentSquare][player][0]
+                                }
+                            }
+                        }
+                        //if the square in question is not the first value in the array then
+                        //we are jumping to the right
+                    } else { 
+                        if(player === 0) {
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) - 7)}`
+                            const edgePieces = ['s8', 's16', 's24', 's32']
+                            if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
+                                if(!edgePieces.includes(piece.currentSquare)) {
+                                    piece.captures[parseInt(piece.currentSquare.slice(1)) - 7]
+                                    = availableMovesForSquares[piece.currentSquare][player][1]
+                                }
+                            }
+                        } else {
+                            const adjacentPiece = `s${parseInt(piece.currentSquare.slice(1) + 9)}`
+                            const edgePieces = ['s8', 's16', 's24']
+                            if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
+                                if(!edgePieces.includes(piece.currentSquare)) {
+                                    piece.captures[parseInt(piece.currentSquare.slice(1)) + 9]
+                                    = availableMovesForSquares[piece.currentSquare][player][1]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-    if(currentPlayerPieces.every(piece => piece.captures.length === 0)) {
+    //if the user has no pieces that can be captured then check for available moves
+    if(currentPlayerPieces.every(piece => Object.keys(piece.captures).length === 0)) {
         for(let piece of currentPlayerPieces) {
             for(let square of availableMovesForSquares[piece.currentSquare][player]) {
                 if(square) {
@@ -131,7 +186,7 @@ const createSquareEventListeners = () => {
     for(let square of squares) {
         square.addEventListener('click', () => {
             if(selectedPiece) {
-                if(selectedPiece.availableMoves.includes(parseInt(square.id.slice(1)))) {
+                if(isValidMove(selectedPiece, square)) {
                     selectedPiece.currentSquare = square.id
                     renderBoard()
                     selectedPiece = null
@@ -140,6 +195,15 @@ const createSquareEventListeners = () => {
                 }
             }
         })
+    }
+}
+const isValidMove = (selectedPiece, square) => {
+    if(Object.keys(selectedPiece.captures).length !== 0) {
+        console.log(selectedPiece.captures)
+    } else {
+        if(selectedPiece.availableMoves.includes(parseInt(square.id.slice(1)))) {
+            return true
+        }
     }
 }
 
