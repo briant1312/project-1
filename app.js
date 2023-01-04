@@ -20,6 +20,7 @@ class PlayerPiece {
         this.isKing = false
         this.captures = null
         this.availableMoves = []
+        this.justCaptured = false
     }
     
 }
@@ -221,16 +222,22 @@ const createSquareEventListeners = () => {
         square.addEventListener('click', () => {
             if(selectedPiece) {
                 if(isValidMove(selectedPiece, square)) {
-                    selectedPiece.currentSquare = square.id
-                    selectedPiece = null
-                    checkForKing()
-                    renderBoard()
-                    createPieceEventListeners()
-                    switchTurn()
+                    makeTurn(square)
+                    if(!totalPieces.every(piece => piece.justCaptured)) {
+                        switchTurn()
+                    }
                 }
             }
         })
     }
+}
+
+const makeTurn = (square) => {
+    selectedPiece.currentSquare = square.id
+    selectedPiece = null
+    checkForKing()
+    renderBoard()
+    createPieceEventListeners()
 }
 
 const isValidMove = (selectedPiece, square) => {
