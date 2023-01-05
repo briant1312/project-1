@@ -7,10 +7,7 @@ const winnerText = document.querySelector('#winner-text')
 let playerOnePieces = []
 let playerTwoPieces = []
 let totalPieces = []
-
-// let justCrowned = false
-justCaptured = false
-
+let justCaptured = false
 // this variable is used to keep track of the current players turn
 //it is also used when searching the availableMovesForSquares array to 
 //grab the available moves for the correct player
@@ -26,7 +23,6 @@ class PlayerPiece {
         this.availableMoves = []
         this.justCrowned = false
     }
-    
 }
 
 //this object is used to lookup which moves are available for each square
@@ -71,7 +67,6 @@ const createUserPieces = () => {
         playerTwoPieces.push(piece)
         totalPieces.push(piece)
     }
-
     for(let i = 21; i <= 32; i++) {
         const piece = new PlayerPiece(`s${i}`)
         playerOnePieces.push(piece)
@@ -89,7 +84,6 @@ const renderBoard = () => {
             const square = document.querySelector(`#${piece.currentSquare}`)
             square.appendChild(playerPiece)
             playerPiece.classList.add('player-one-piece', 'piece')
-
             if(piece.isKing) {
                 playerPiece.classList.add('king')
                 playerPiece.innerHTML = '<i class="fa-solid fa-crown"></i>'
@@ -102,7 +96,6 @@ const renderBoard = () => {
             const square = document.querySelector(`#${piece.currentSquare}`)
             square.appendChild(playerPiece)
             playerPiece.classList.add('player-two-piece', 'piece')
-
             if(piece.isKing) {
                 playerPiece.classList.add('king')
                 playerPiece.innerHTML = '<i class="fa-solid fa-crown"></i>'
@@ -113,7 +106,6 @@ const renderBoard = () => {
 
 const generateAvailableMoves = (currentPlayerPieces, opponentPieces) => {
     for(piece of totalPieces) {
-        //this resets these attributes so they clear out after every turn
         piece.availableMoves = []
         piece.captures = {}
     }
@@ -205,7 +197,6 @@ const getNonCaptureMoves = (piece, index) => {
     }
 }
 
-
 const createPieceEventListeners = () => {
     const pieces = document.querySelectorAll('.piece')
     for(let piece of pieces) {
@@ -242,7 +233,7 @@ const createSquareEventListeners = () => {
                                     : getCaptures(selectedPiece, playerOnePieces, player - 1)
                                 }
                             }
-                        }
+                        }  
                         if(totalPieces.every(piece => Object.keys(piece.captures).length === 0)) {
                             switchTurn()
                         }
@@ -283,13 +274,15 @@ const checkForKing = () => {
     const playerOneKingSquares = ['s1', 's2', 's3', 's4']
     const playerTwoKingSquares = ['s29', 's30', 's31', 's32']
     for(let piece of playerOnePieces) {
-        if(playerOneKingSquares.includes(piece.currentSquare)) {
+        if(playerOneKingSquares.includes(piece.currentSquare)
+            && !piece.isKing) {
             piece.isKing = true
             piece.justCrowned = true
         }
     }
     for(let piece of playerTwoPieces) {
-        if(playerTwoKingSquares.includes(piece.currentSquare)) {
+        if(playerTwoKingSquares.includes(piece.currentSquare)
+            && !piece.isKing) {
             piece.isKing = true
             piece.justCrowned = true
         }
@@ -313,7 +306,7 @@ const switchTurn = () => {
         playerOne.style.color = 'green'
         generateAvailableMoves(playerOnePieces, playerTwoPieces)
     }
-    isGameOver()
+    checkIfGameOver()
 }
 
 restartButton.addEventListener('click', () => {
@@ -327,22 +320,19 @@ restartButton.addEventListener('click', () => {
     initialize()
 })
 
-const isGameOver = () => {
+const checkIfGameOver = () => {
     if(player === 0) {
         if(playerOnePieces.every(piece => piece.availableMoves.length === 0
-            && playerOnePieces.every(piece => Object.keys(piece.captures).length === 0))){
-                winnerText.innerText = 'Player Two Wins'
-                return true
-            }
+        && playerOnePieces.every(piece => Object.keys(piece.captures).length === 0))){
+            winnerText.innerText = 'Player Two Wins'
+        }
     } else {
         if(playerTwoPieces.every(piece => piece.availableMoves.length === 0
-            && playerTwoPieces.every(piece => Object.keys(piece.captures).length === 0))){
-                winnerText.innerText = 'Player One Wins'
-                return true
-            }
+        && playerTwoPieces.every(piece => Object.keys(piece.captures).length === 0))){
+            winnerText.innerText = 'Player One Wins'
+        }
     }
 }
-
 
 const initialize = () => {
     createUserPieces()
