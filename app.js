@@ -228,7 +228,6 @@ const createSquareEventListeners = () => {
                     if(!justCaptured) {
                         switchTurn()
                     } else {
-                        justCrowned = false
                         justCaptured = false
                         for(piece of totalPieces) {
                             piece.availableMoves = []
