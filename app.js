@@ -8,6 +8,7 @@ let playerTwoPieces = []
 let totalPieces = []
 
 let justCrowned = false
+justCaptured = false
 
 // this variable is used to keep track of the current players turn
 //it is also used when searching the availableMovesForSquares array to 
@@ -22,7 +23,6 @@ class PlayerPiece {
         this.isKing = false
         this.captures = null
         this.availableMoves = []
-        this.justCaptured = false
     }
     
 }
@@ -225,11 +225,11 @@ const createSquareEventListeners = () => {
             if(selectedPiece) {
                 if(isValidMove(selectedPiece, square)) {
                     makeTurn(square)
-                    if(totalPieces.every(piece => piece.justCaptured === false)) {
-                        justCrowned = false
-                        selectedPiece = null
+                    if(!justCaptured) {
                         switchTurn()
-                    } else{
+                    } else {
+                        justCrowned = false
+                        justCaptured = false
                         for(piece of totalPieces) {
                             piece.availableMoves = []
                             piece.captures = {}
@@ -242,12 +242,7 @@ const createSquareEventListeners = () => {
                                 }
                             }
                         }
-                        justCrowned = false
-                        for(let piece of totalPieces) {
-                            piece.justCaptured = false
-                        }
                         if(totalPieces.every(piece => Object.keys(piece.captures).length === 0)) {
-                            selectedPiece = null
                             switchTurn()
                         }
                     }
@@ -273,7 +268,7 @@ const isValidMove = (selectedPiece, square) => {
                     piece.currentSquare = null
                 }
             }
-            selectedPiece.justCaptured = true
+            justCaptured = true
             return true
         }
     } else {
@@ -301,6 +296,9 @@ const checkForKing = () => {
 }
 
 const switchTurn = () => {
+    justCrowned = false
+    justCaptured = false
+    selectedPiece = null
     if(player === 0){
         player = 1
         playerTwo.style.color = 'green'
