@@ -2,6 +2,7 @@ const squares = document.querySelectorAll('.square')
 const playerOne = document.querySelector('#player-one')
 const playerTwo = document.querySelector('#player-two')
 const restartButton = document.querySelector('#restart-button')
+const winnerText = document.querySelector('#winner-text')
 
 let playerOnePieces = []
 let playerTwoPieces = []
@@ -312,9 +313,11 @@ const switchTurn = () => {
         playerOne.style.color = 'green'
         generateAvailableMoves(playerOnePieces, playerTwoPieces)
     }
+    isGameOver()
 }
 
 restartButton.addEventListener('click', () => {
+    winnerText.innerHTML = ''
     playerOnePieces = []
     playerTwoPieces = []
     totalPieces = []
@@ -323,6 +326,22 @@ restartButton.addEventListener('click', () => {
     playerOne.style.color = 'green'
     initialize()
 })
+
+const isGameOver = () => {
+    if(player === 0) {
+        if(playerOnePieces.every(piece => piece.availableMoves.length === 0
+            && playerOnePieces.every(piece => Object.keys(piece.captures).length === 0))){
+                winnerText.innerText = 'Player Two Wins'
+                return true
+            }
+    } else {
+        if(playerTwoPieces.every(piece => piece.availableMoves.length === 0
+            && playerTwoPieces.every(piece => Object.keys(piece.captures).length === 0))){
+                winnerText.innerText = 'Player One Wins'
+                return true
+            }
+    }
+}
 
 
 const initialize = () => {
