@@ -7,6 +7,8 @@ let playerOnePieces = []
 let playerTwoPieces = []
 let totalPieces = []
 
+let justCrowned = false
+
 // this variable is used to keep track of the current players turn
 //it is also used when searching the availableMovesForSquares array to 
 //grab the available moves for the correct player
@@ -224,20 +226,23 @@ const createSquareEventListeners = () => {
                 if(isValidMove(selectedPiece, square)) {
                     makeTurn(square)
                     if(totalPieces.every(piece => piece.justCaptured === false)) {
+                        justCrowned = false
                         selectedPiece = null
                         switchTurn()
-                    } else {
+                    } else{
                         for(piece of totalPieces) {
                             piece.availableMoves = []
                             piece.captures = {}
-                            if(!selectedPiece.isKing) {
+                            if(!justCrowned) {
                                 player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player)
-                                : getCaptures(selectedPiece, playerOnePieces, player)
-                            } else {
-                                player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
-                                : getCaptures(selectedPiece, playerOnePieces, player - 1)
+                                    : getCaptures(selectedPiece, playerOnePieces, player)
+                                 if(piece.isKing) {
+                                    player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
+                                    : getCaptures(selectedPiece, playerOnePieces, player - 1)
+                                }
                             }
                         }
+                        justCrowned = false
                         for(let piece of totalPieces) {
                             piece.justCaptured = false
                         }
@@ -284,11 +289,13 @@ const checkForKing = () => {
     for(let piece of playerOnePieces) {
         if(playerOneKingSquares.includes(piece.currentSquare)) {
             piece.isKing = true
+            justCrowned = true
         }
     }
     for(let piece of playerTwoPieces) {
         if(playerTwoKingSquares.includes(piece.currentSquare)) {
             piece.isKing = true
+            justCrowned = true
         }
     }
 }
