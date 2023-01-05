@@ -7,7 +7,7 @@ let playerOnePieces = []
 let playerTwoPieces = []
 let totalPieces = []
 
-let justCrowned = false
+// let justCrowned = false
 justCaptured = false
 
 // this variable is used to keep track of the current players turn
@@ -23,6 +23,7 @@ class PlayerPiece {
         this.isKing = false
         this.captures = null
         this.availableMoves = []
+        this.justCrowned = false
     }
     
 }
@@ -232,10 +233,10 @@ const createSquareEventListeners = () => {
                         for(piece of totalPieces) {
                             piece.availableMoves = []
                             piece.captures = {}
-                            if(!justCrowned) {
+                            if(!selectedPiece.justCrowned) {
                                 player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player)
                                     : getCaptures(selectedPiece, playerOnePieces, player)
-                                 if(piece.isKing) {
+                                 if(selectedPiece.isKing) {
                                     player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
                                     : getCaptures(selectedPiece, playerOnePieces, player - 1)
                                 }
@@ -283,19 +284,21 @@ const checkForKing = () => {
     for(let piece of playerOnePieces) {
         if(playerOneKingSquares.includes(piece.currentSquare)) {
             piece.isKing = true
-            justCrowned = true
+            piece.justCrowned = true
         }
     }
     for(let piece of playerTwoPieces) {
         if(playerTwoKingSquares.includes(piece.currentSquare)) {
             piece.isKing = true
-            justCrowned = true
+            piece.justCrowned = true
         }
     }
 }
 
 const switchTurn = () => {
-    justCrowned = false
+    for(let piece of totalPieces) {
+        piece.justCrowned = false
+    }
     justCaptured = false
     selectedPiece = null
     if(player === 0){
