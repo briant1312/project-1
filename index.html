@@ -79,7 +79,56 @@
     </main>
 
     <h2 id="player-one">Player One</h2>
-    <button id="restart-button">Restart Game</button>
+    <button class="btn" id="restart-button">Restart Game</button>
+
+    <label for="game-rules"><span class="game-rules-toggle btn">Rules</span></label>
+    <input type="checkbox" id="game-rules">
+    <div class="game-rules-container">
+        <label for="game-rules"><span>&times;</span></label>
+        <h3>Official Checkers Rules</h3>
+        <h4>Taking a Turn</h4>
+        <ul>
+            <li>
+                Each player takes turns moving a piece in the diagonal 
+                direction towards your opponent.
+            </li>
+            <li>
+                If there is one of the opponent's pieces next to a piece and 
+                an empty square on the other side, you jump your opponent and 
+                remove their piece.
+            </li>
+            <li>
+                You can make multiple jumps if they are lined up in the forward 
+                direction.
+            </li>
+            <li>
+                If you have a jump, you have no choice but to take it.
+            </li>
+        </ul>
+        <h4>King Pieces</h4>
+        <ul>
+            <li>
+                The last row is called the king row. If you get a piece across the 
+                board to the opponent's king row, that piece becomes a king.
+            </li>
+            <li>
+                King pieces can move in both direction, forward and backward.
+            </li>
+            <li>
+                Once a piece is kinged, the player must wait until the next turn 
+                to jump out of the king row.
+            </li>
+        </ul>
+        <h4>Winning the Game</h4>
+        <ul>
+            <li>
+                You win the game when the opponent has no more pieces or can't move(even 
+                if they still have pieces). If neither player can move then it is a draw.
+            </li>
+        </ul>
+
+        <p>These rules were taking directly from <a href="https://www.officialgamerules.org/checkers" target="_blank">officialgamerules.org</a></p>
+    </div>
 
     <script src="app.js"></script>
 </body>

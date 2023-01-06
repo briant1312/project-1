@@ -14,7 +14,7 @@ html {
 
 :root {
     --dark-square-color: #080606;
-    --player-two-piece-color: #473737;
+    --player-two-piece-color: #6d5151;
     --player-one-piece-color: bisque;
 }
 
@@ -66,6 +66,7 @@ h2 {
     left: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid black;
+    box-shadow: 0 0 4rem .5rem rgba(0, 0, 0, 0.7);
 }
 
 .square {
@@ -77,20 +78,22 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .piece {
     width: 50%;
     height: 50%;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .player-one-piece {
-    background-color: var(--player-one-piece-color);
+    background-color: var(--player-two-piece-color);
 }
 
 .player-two-piece {
-    background-color: var(--player-two-piece-color);
+    background-color: var(--player-one-piece-color);
 }
 
 .king {
@@ -103,4 +106,92 @@ h2 {
 
 .king i {
     position: absolute;
+}
+
+.btn {
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.7);
+    transition: all .2s;
+    font-size: 1.5rem;
+    padding: .8rem 1.5rem;
+    border-radius: 1rem;
+}
+
+.game-rules-toggle {
+    display: inline-block;
+    background-color: rgb(166, 225, 84);
+    border: 1px solid black;
+    margin: 3rem 3rem;
+}
+
+.btn:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 .8rem 1.7rem rgba(0, 0, 0, 0.7);
+}
+
+#game-rules {
+    display: none;
+}
+
+/* ========== Game Rules Style ========== */
+
+#game-rules:checked ~ .game-rules-container {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: all;
+}
+
+.game-rules-container {
+    background-color: rgb(127, 194, 193);
+    padding: 3rem 8rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.3);
+    width: 80%;
+    border-radius: 2.5rem;
+    z-index: 2;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s;
+}
+
+.game-rules-container h3 {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+}
+
+.game-rules-container h4 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.game-rules-container li {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+}
+
+.game-rules-container p {
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.game-rules-container a {
+    color: rgb(38, 101, 236);
+    text-decoration: none;
+}
+
+.game-rules-container span {
+    position: absolute;
+    top: 2rem;
+    right: 4rem;
+    font-size: 3rem;
+}
+
+.game-rules-container span:hover {
+    cursor: pointer;
+    color: rgb(241, 41, 41);
 }
