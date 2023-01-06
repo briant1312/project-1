@@ -18,7 +18,7 @@ Checkers is a strategy based board game for two players which involves diagonal 
 
 ---
 
-To play this game click on the link [here](https://www.example.com)
+To play this game click on the link [here](https://briant1312.github.io/project-1/)
 
 Instructions: 
 
