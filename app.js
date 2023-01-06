@@ -352,6 +352,10 @@ restartButton.addEventListener('click', () => {
 })
 
 const checkIfGameOver = () => {
+    if(totalPieces.every(piece => piece.availableMoves.length === 0
+    && totalPieces.every(piece => Object.keys(piece.captures).length === 0))) {
+        winnerText.innerText = 'Game is a Draw'
+    }
     if(player === 0) {
         if(playerOnePieces.every(piece => piece.availableMoves.length === 0
         && playerOnePieces.every(piece => Object.keys(piece.captures).length === 0))){
