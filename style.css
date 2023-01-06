@@ -97,7 +97,6 @@ h2 {
     }
 }
 
-
 /* ========== Board Styles ========== */
 
 .board-container {
@@ -170,7 +169,6 @@ h2 {
     width: 80%;
     border-radius: 2.5rem;
     z-index: 2;
-
     pointer-events: none;
     opacity: 0;
     transition: all .3s;

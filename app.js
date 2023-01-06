@@ -246,30 +246,34 @@ const createSquareEventListeners = () => {
             if(selectedPiece) {
                 if(isValidMove(selectedPiece, square)) {
                     makeTurn(square)
-                    if(!justCaptured) {
-                        switchTurn()
-                    } else {
-                        justCaptured = false
-                        for(piece of totalPieces) {
-                            piece.availableMoves = []
-                            piece.captures = {}
-                            if(!selectedPiece.justCrowned) {
-                                player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player)
-                                    : getCaptures(selectedPiece, playerOnePieces, player)
-                                 if(selectedPiece.isKing) {
-                                    player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
-                                    : getCaptures(selectedPiece, playerOnePieces, player - 1)
-                                }
-                            }
-                        }  
-                        highlightAvailableMoves()
-                        if(totalPieces.every(piece => Object.keys(piece.captures).length === 0)) {
-                            switchTurn()
-                        }
-                    }
+                    checkForContinuousCaptures()
                 }
             }
         })
+    }
+}
+
+const checkForContinuousCaptures = () => {
+    if(!justCaptured) {
+        switchTurn()
+    } else {
+        justCaptured = false
+        for(piece of totalPieces) {
+            piece.availableMoves = []
+            piece.captures = {}
+            if(!selectedPiece.justCrowned) {
+                player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player)
+                    : getCaptures(selectedPiece, playerOnePieces, player)
+                 if(selectedPiece.isKing) {
+                    player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
+                    : getCaptures(selectedPiece, playerOnePieces, player - 1)
+                }
+            }
+        }  
+        highlightAvailableMoves()
+        if(totalPieces.every(piece => Object.keys(piece.captures).length === 0)) {
+            switchTurn()
+        }
     }
 }
 
