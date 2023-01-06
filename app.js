@@ -340,6 +340,7 @@ const switchTurn = () => {
 }
 
 restartButton.addEventListener('click', () => {
+    removeHighlightForSquares()
     winnerText.innerHTML = ''
     playerOnePieces = []
     playerTwoPieces = []
