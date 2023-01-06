@@ -61,17 +61,22 @@ h2 {
     border-radius: 1rem;
 }
 
+.btn:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 .8rem 1.7rem rgba(0, 0, 0, 0.7);
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.7);
+}
+
 .game-rules-toggle {
     display: inline-block;
     background-color: rgb(166, 225, 84);
     border: 1px solid black;
     margin: 3rem 3rem;
-}
-
-.btn:hover {
-    cursor: pointer;
-    transform: translateY(-2px);
-    box-shadow: 0 .8rem 1.7rem rgba(0, 0, 0, 0.7);
 }
 
 #game-rules {
