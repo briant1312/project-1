@@ -201,14 +201,42 @@ const createPieceEventListeners = () => {
     const pieces = document.querySelectorAll('.piece')
     for(let piece of pieces) {
         piece.addEventListener('click', (e) => {
+            removeHighlightForSquares()
             e.stopPropagation()
             selection = piece.parentElement.id
             for(let piece of totalPieces) {
                 if(piece.currentSquare === selection){
                     selectedPiece = piece
+                    highlightAvailableMoves()
                 }
             }
         })
+    }
+}
+
+const highlightAvailableMoves = () => {
+    if(Object.keys(selectedPiece.captures).length > 0) {
+        for(let key in selectedPiece.captures) {
+            const highlightedSquare = document.querySelector(`#s${key}`)
+            highlightedSquare.style.boxShadow = '0 0 3rem .5rem rgb(170, 167, 3)'
+        }        
+    }
+    for(let square of selectedPiece.availableMoves) {
+        const highlightedSquare = document.querySelector(`#s${square}`)
+        highlightedSquare.style.boxShadow = '0 0 3rem .5rem rgb(170, 167, 3)'
+    }
+}
+
+const removeHighlightForSquares = () => {
+    if(selectedPiece) {
+        for(let key in selectedPiece.captures) {
+            const highlightedSquare = document.querySelector(`#s${key}`)
+            highlightedSquare.style.boxShadow = ''            
+        }
+        for(let square of selectedPiece.availableMoves) {
+            const highlightedSquare = document.querySelector(`#s${square}`)
+            highlightedSquare.style.boxShadow = ''
+        }
     }
 }
 
@@ -234,6 +262,7 @@ const createSquareEventListeners = () => {
                                 }
                             }
                         }  
+                        highlightAvailableMoves()
                         if(totalPieces.every(piece => Object.keys(piece.captures).length === 0)) {
                             switchTurn()
                         }
@@ -245,6 +274,7 @@ const createSquareEventListeners = () => {
 }
 
 const makeTurn = (square) => {
+    removeHighlightForSquares()
     selectedPiece.currentSquare = square.id
     checkForKing()
     renderBoard()
