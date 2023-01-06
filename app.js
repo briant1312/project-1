@@ -329,11 +329,15 @@ const switchTurn = () => {
         player = 1
         playerTwo.style.color = 'green'
         playerOne.style.color = 'black'
+        playerTwo.classList.add('current-player')
+        playerOne.classList.remove('current-player')
         generateAvailableMoves(playerTwoPieces, playerOnePieces)
     } else {
         player = 0
         playerTwo.style.color = 'black'
         playerOne.style.color = 'green'
+        playerOne.classList.add('current-player')
+        playerTwo.classList.remove('current-player')
         generateAvailableMoves(playerOnePieces, playerTwoPieces)
     }
     checkIfGameOver()
@@ -348,6 +352,8 @@ restartButton.addEventListener('click', () => {
     player = 0
     playerTwo.style.color = 'black'
     playerOne.style.color = 'green'
+    playerOne.classList.add('current-player')
+    playerTwo.classList.remove('current-player')
     initialize()
 })
 

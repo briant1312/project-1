@@ -53,6 +53,50 @@ h2 {
     font-size: 3.2rem;
 }
 
+.btn {
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.7);
+    transition: all .2s;
+    font-size: 1.5rem;
+    padding: .8rem 1.5rem;
+    border-radius: 1rem;
+}
+
+.game-rules-toggle {
+    display: inline-block;
+    background-color: rgb(166, 225, 84);
+    border: 1px solid black;
+    margin: 3rem 3rem;
+}
+
+.btn:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 .8rem 1.7rem rgba(0, 0, 0, 0.7);
+}
+
+#game-rules {
+    display: none;
+}
+
+.current-player {
+    animation: 1.2s showCurrentPlayer infinite;
+}
+
+@keyframes showCurrentPlayer {
+    0% {
+        transform: scale(1);
+        text-shadow: .5rem .5rem 1.5rem rgba(0, 0, 0, 0.7);
+    } 
+    50% {
+        transform: scale(1.2);
+        text-shadow: 1rem 1.5rem 1.7rem rgba(0, 0, 0, 0.7);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: .5rem .5rem 1.5rem rgba(0, 0, 0, 0.7);
+    }
+}
+
 
 /* ========== Board Styles ========== */
 
@@ -106,31 +150,6 @@ h2 {
 
 .king i {
     position: absolute;
-}
-
-.btn {
-    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.7);
-    transition: all .2s;
-    font-size: 1.5rem;
-    padding: .8rem 1.5rem;
-    border-radius: 1rem;
-}
-
-.game-rules-toggle {
-    display: inline-block;
-    background-color: rgb(166, 225, 84);
-    border: 1px solid black;
-    margin: 3rem 3rem;
-}
-
-.btn:hover {
-    cursor: pointer;
-    transform: translateY(-2px);
-    box-shadow: 0 .8rem 1.7rem rgba(0, 0, 0, 0.7);
-}
-
-#game-rules {
-    display: none;
 }
 
 /* ========== Game Rules Style ========== */
