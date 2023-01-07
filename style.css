@@ -217,3 +217,34 @@ h2 {
     cursor: pointer;
     color: rgb(241, 41, 41);
 }
+
+/* ========== Media Queries ========== */
+
+@media only screen and (min-width: 81.35em) {
+    html {
+        font-size: 80%;
+    }
+}
+
+@media only screen and (max-width: 52em) {
+    html {
+        font-size: 50%;
+    }
+
+    .board-container {
+        height: 70vh;
+        width: 70vh;
+    }
+}
+
+@media only screen and (max-width: 34em) {
+    .board-container {
+        height: 90vw;
+        width: 90vw;
+    }
+
+    .game-rules-container {
+        width: 100%;
+        padding-inline: 3rem;
+    }
+}
