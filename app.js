@@ -4,17 +4,17 @@ const playerTwo = document.querySelector('#player-two')
 const restartButton = document.querySelector('#restart-button')
 const winnerText = document.querySelector('#winner-text')
 
-let playerOnePieces = []
+let playerOnePieces = [] // use const for reference types- unless you want to change the array to something else 
 let playerTwoPieces = []
 let totalPieces = []
 let justCaptured = false
-// this variable is used to keep track of the current players turn
+// this variable is used to keep track of the current players turn // make your comment more specific 
 //it is also used when searching the availableMovesForSquares array to 
 //grab the available moves for the correct player
-let player = 0
+let player = 0 
 let selectedPiece = null
 
-class PlayerPiece {
+class PlayerPiece { // nice use of a class
     constructor(currentSquare) {
         this.currentSquare = currentSquare
         this.isAlive = true
@@ -26,7 +26,7 @@ class PlayerPiece {
 }
 
 //this object is used to lookup which moves are available for each square
-const availableMovesForSquares = {
+const availableMovesForSquares = { // nice implementation ! very nearly an 'adjacency matrix' see ADT Graph wiki https://en.wikipedia.org/wiki/Graph_(abstract_data_type)#:~:text=In%20computer%20science%2C%20a%20graph,of%20graph%20theory%20within%20mathematics.
     s1: [[null, null], [5, 6]],
     s2: [[null, null], [6, 7]],
     s3: [[null, null], [7, 8]],
@@ -59,7 +59,7 @@ const availableMovesForSquares = {
     s30: [[25, 26], [null, null]],
     s31: [[26, 27], [null, null]],
     s32: [[27, 28], [null, null]],
-}
+} // we can talk more about this in unit 4
 
 const createUserPieces = () => {
     for(let i = 1; i <= 12; i++) {
@@ -79,7 +79,7 @@ const renderBoard = () => {
         square.innerHTML = ''
     })
     for(let piece of playerOnePieces) {
-        if(piece.isAlive) {
+        if(piece.isAlive) { // refactor this block into a separate function that we call here 
             const playerPiece = document.createElement('div')
             const square = document.querySelector(`#${piece.currentSquare}`)
             square.appendChild(playerPiece)
@@ -91,7 +91,7 @@ const renderBoard = () => {
         }
     }
     for(let piece of playerTwoPieces) {
-        if(piece.isAlive) {
+        if(piece.isAlive) { // and here, 'drawPiece' perhaps 
             const playerPiece = document.createElement('div')
             const square = document.querySelector(`#${piece.currentSquare}`)
             square.appendChild(playerPiece)
@@ -146,7 +146,7 @@ const getCaptures = (piece, opponentPieces, index) => {
                         if(totalPieces.every(piece => piece.currentSquare !== adjacentPiece)) {
                             if(!edgePieces.includes(piece.currentSquare)) {
                                 piece.captures[parseInt(piece.currentSquare.slice(1)) - 9]
-                                 = availableMovesForSquares[piece.currentSquare].at(index)[0]
+                                = availableMovesForSquares[piece.currentSquare].at(index)[0]
                             }
                         }
                     } else {
@@ -214,7 +214,7 @@ const createPieceEventListeners = () => {
     }
 }
 
-const highlightAvailableMoves = () => {
+const highlightAvailableMoves = () => { // why not take the style for selected squares and put them in a css class, then add or remove the class here instead of re-writing the entire style. Also will make future changes easier 
     if(Object.keys(selectedPiece.captures).length > 0) {
         for(let key in selectedPiece.captures) {
             const highlightedSquare = document.querySelector(`#s${key}`)
@@ -223,7 +223,7 @@ const highlightAvailableMoves = () => {
     }
     for(let square of selectedPiece.availableMoves) {
         const highlightedSquare = document.querySelector(`#s${square}`)
-        highlightedSquare.style.boxShadow = '0 0 3rem .5rem rgb(170, 167, 3)'
+        highlightedSquare.style.boxShadow = '0 0 3rem .5rem rgb(170, 167, 3)' 
     }
 }
 
@@ -264,7 +264,7 @@ const checkForContinuousCaptures = () => {
             if(!selectedPiece.justCrowned) {
                 player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player)
                     : getCaptures(selectedPiece, playerOnePieces, player)
-                 if(selectedPiece.isKing) {
+                if(selectedPiece.isKing) { // mind the sneaky spaces
                     player === 0 ? getCaptures(selectedPiece, playerTwoPieces, player - 1)
                     : getCaptures(selectedPiece, playerOnePieces, player - 1)
                 }
@@ -362,7 +362,7 @@ restartButton.addEventListener('click', () => {
 })
 
 const checkIfGameOver = () => {
-    if(totalPieces.every(piece => piece.availableMoves.length === 0
+    if(totalPieces.every(piece => piece.availableMoves.length === 0 
     && totalPieces.every(piece => Object.keys(piece.captures).length === 0)
     && playerOnePieces.some(piece => piece.isAlive)
     && playerTwoPieces.some(piece => piece.isAlive))) {
@@ -380,7 +380,7 @@ const checkIfGameOver = () => {
     }
 }
 
-const initialize = () => {
+const initialize = () => { 
     createUserPieces()
     renderBoard()
     createPieceEventListeners()
