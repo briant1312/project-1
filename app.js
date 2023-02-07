@@ -3,6 +3,7 @@ const playerOne = document.querySelector('#player-one')
 const playerTwo = document.querySelector('#player-two')
 const restartButton = document.querySelector('#restart-button')
 const winnerText = document.querySelector('#winner-text')
+const movePieceSound = new Audio('./assets/585582__therealisa__pokerchip_pokerchip_click_rattle.flac')
 
 let playerOnePieces = []
 let playerTwoPieces = []
@@ -287,6 +288,7 @@ const makeTurn = (square) => {
     selectedPiece.currentSquare = square.id
     checkForKing()
     renderBoard()
+    movePieceSound.play()
     createPieceEventListeners()
 }
 
