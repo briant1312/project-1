@@ -288,6 +288,8 @@ const makeTurn = (square) => {
     selectedPiece.currentSquare = square.id
     checkForKing()
     renderBoard()
+    movePieceSound.pause()
+    movePieceSound.load()
     movePieceSound.play()
     createPieceEventListeners()
 }
