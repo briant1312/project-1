@@ -201,12 +201,17 @@ const createPieceEventListeners = () => {
     const pieces = document.querySelectorAll('.piece')
     for(let piece of pieces) {
         piece.addEventListener('click', (e) => {
+            for(let piece of pieces) {
+                piece.classList.remove('selected-piece')
+            }
             removeHighlightForSquares()
             e.stopPropagation()
             selection = piece.parentElement.id
             for(let piece of totalPieces) {
                 if(piece.currentSquare === selection){
                     selectedPiece = piece
+                    const pieceSquare = document.querySelector(`#${selectedPiece.currentSquare}`)
+                    pieceSquare.firstChild.classList.add('selected-piece')
                     highlightAvailableMoves()
                 }
             }
@@ -218,12 +223,12 @@ const highlightAvailableMoves = () => {
     if(Object.keys(selectedPiece.captures).length > 0) {
         for(let key in selectedPiece.captures) {
             const highlightedSquare = document.querySelector(`#s${key}`)
-            highlightedSquare.style.boxShadow = '0 0 3rem .5rem rgb(170, 167, 3)'
+            highlightedSquare.classList.add('highlighted-square')
         }        
     }
     for(let square of selectedPiece.availableMoves) {
         const highlightedSquare = document.querySelector(`#s${square}`)
-        highlightedSquare.style.boxShadow = '0 0 3rem .5rem rgb(170, 167, 3)'
+        highlightedSquare.classList.add('highlighted-square')
     }
 }
 
@@ -231,11 +236,11 @@ const removeHighlightForSquares = () => {
     if(selectedPiece) {
         for(let key in selectedPiece.captures) {
             const highlightedSquare = document.querySelector(`#s${key}`)
-            highlightedSquare.style.boxShadow = ''            
+            highlightedSquare.classList.remove('highlighted-square')            
         }
         for(let square of selectedPiece.availableMoves) {
             const highlightedSquare = document.querySelector(`#s${square}`)
-            highlightedSquare.style.boxShadow = ''
+            highlightedSquare.classList.remove('highlighted-square')
         }
     }
 }
