@@ -4,6 +4,7 @@ const playerTwo = document.querySelector('#player-two')
 const restartButton = document.querySelector('#restart-button')
 const winnerText = document.querySelector('#winner-text')
 const movePieceSound = new Audio('https://briant1312.github.io/project-1/assets/585582__therealisa__pokerchip_pokerchip_click_rattle.flac')
+const resetBoardSound = new Audio('https://briant1312.github.io/project-1/assets/532861__joma86__allinpushchips.wav')
 
 let playerOnePieces = []
 let playerTwoPieces = []
@@ -357,6 +358,7 @@ const switchTurn = () => {
 }
 
 restartButton.addEventListener('click', () => {
+    resetBoardSound.play()
     removeHighlightForSquares()
     winnerText.innerHTML = ''
     playerOnePieces = []
